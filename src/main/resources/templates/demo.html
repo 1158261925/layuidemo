@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>测试用途</title>
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <script type="text/javascript" src="./layui/layui.js" ></script>
+    <script src="./js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/serializeObject.js"></script>
+</head>
+<body>
+    <button class="button" id="demobtn">点击此处</button>
+
+    <script type="text/javascript">
+        layui.use('layer',function () {
+            var layer = layui.layer;
+            var $ = layui.$;
+            $("#demobtn").click(function(){
+                $.ajax({
+                    url:'/demo',
+                    method:'get',
+                    contentType:'application/json',
+                    dataType:'json',
+                    success:function(result){
+                        console.log(result.username);
+                        console.log(result.gender);
+                        console.log(result.age);
+                    }
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>

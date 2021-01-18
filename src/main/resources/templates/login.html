@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <script type="text/javascript" src="./layui/layui.js" ></script>
+    <script src="./js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/serializeObject.js"></script>
+    <style type="text/css">
+        body{
+            background-image: url(./images/backgroundImg.jpeg);
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div style="margin-left: auto;margin-right: auto;margin-top: 10%;width: 50%;height: 50%;padding: 5%;">
+        <div style="text-align: center;margin-bottom: 30px"><h2 style="color: coral ">用户登录页面</h2></div>
+        <form class="layui-form" id="formdemo">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" pattern="[a-zA-Z]{5,12}" placeholder="请输入用户名(5-12位字母)" name="username" required lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">密&nbsp;&nbsp;码</label>
+                <div class="layui-input-block">
+                    <input type="password" class="layui-input" pattern="\d{5,12}" placeholder="请输入密码(5-12位数字)" name="passwd" required lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item" style="text-align: center">
+                <button type="button" class="layui-btn" lay-submit lay-filter="login">登录</button>
+                <button type="reset" class="layui-btn layui-btn-danger" lay-filter="reset">重置</button>
+                <a class="layui-btn layui-btn-xs layui-btn-primary layui-bg-orange" style="float: right" th:href="@{/index}">点击此处跳转注册页面</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        layui.use(['form','layer'],function () {
+            var form = layui.form;
+            var layer = layui.layer;
+            var $ = layui.$;
+            form.on('submit(login)',function () {
+                var data = {
+                    username:$('input[name=username]').val(),
+                    passwd:$('input[name=passwd]').val()
+                };
+                $.ajax({
+                    url:'/loginUrl',
+                    type:'post',
+                    dataType:'json',
+                    data:data,
+                    // data:$('#formdemo').serialize(),
+                    success:function (result) {
+                        for(var key in result){
+                            if (key==1 || key==2){
+                                layer.msg(result[key]);
+                            }else if (key==3){
+                                console.log(result[key]);
+                                window.location.href='/book';
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
